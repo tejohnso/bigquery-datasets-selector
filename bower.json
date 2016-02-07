@@ -18,7 +18,6 @@
     "tests"
   ],
   "dependencies": {
-    "google-signin": "~1.0.3",
-    "google-apis": "GoogleWebComponents/google-apis#~1.1.0"
+    "bigquery-projects-selector": "^0.1.0"
   }
 }
