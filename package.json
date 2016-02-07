@@ -1,6 +1,6 @@
 {
   "name": "bigquery-datasets-selector",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Shows a dropdown list of user datasets",
   "main": "bigquery-datasets-selector.html",
   "devDependencies": {
