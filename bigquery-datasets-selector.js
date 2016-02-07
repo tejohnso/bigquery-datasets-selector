@@ -12,6 +12,7 @@
 
   function populateDatasets(e) {
     var projectId = document.querySelector("bigquery-projects-selector select").value;
+    reset();
     gapi.client.bigquery.datasets.list({"projectId": projectId})
     .then((resp)=>{
       resp.result.datasets.forEach((val)=>{
@@ -29,6 +30,6 @@
     for (var i = 1, j = selectElement.children.length; i < j; i += 1) {
       selectElement.removeChild(selectElement.children[1]);
     }
-    selectElement.children[0].innerHTML = "Select a project";
+    selectElement.children[0].innerHTML = "Select a dataset";
   }
 }());
