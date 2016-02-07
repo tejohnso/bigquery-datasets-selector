@@ -29,17 +29,17 @@ describe("end to end tests", function() {
   describe("basic functionality", function() {
     it("can read the page title", ()=>{
       return client
-      .url("localhost:8080/bigquery-projects-selector/test/importing-doc.html")
+      .url("localhost:8080/bigquery-datasets-selector/test/importing-doc.html")
       .getTitle()
       .then((title)=> {
         console.log("Title was: " + title);
-        assert.equal(title, "Bigquery Projects Selector Test");
+        assert.equal(title, "Bigquery Datasets Selector Test");
       });
     });
   });
 
-  describe("projects", function() {
-    it("shows the list of bigquery projects", function() {
+  describe("Datasets", function() {
+    it("shows the list of bigquery datasets", function() {
       return client.waitForExist("google-signin")
       .then(()=>{return client.execute((id)=>{
         document.querySelector("google-signin").setAttribute("client-id", id);
@@ -55,17 +55,34 @@ describe("end to end tests", function() {
       .then(()=>{return client.waitForEnabled("#Passwd", 10000);})
       .then(()=>{return client.setValue("#Passwd", pass + "\n");})
       .then(()=>{return client.switchTab();})
-      .then(()=>{return client.waitUntil(projectListingHasBeenRetrieved, 10000);});
+      .then(()=>{return client.waitUntil(projectListingHasBeenRetrieved, 10000);})
+      .then(()=>{return client.selectByIndex("bigquery-projects-selector", 1);})
+      .then(()=>{return client.waitUntil(datasetsHaveBeenRetrieved, 10000);});
 
       function projectListingHasBeenRetrieved() {
         return client.execute(function() {
-          var selectElement = document.querySelector("select");
+          var selectElement = document.querySelector("bigquery-projects-selector select");
           if (!selectElement) {return {value: 0};}
           return selectElement.children.length;
         })
         .then((domResult)=>{
           if (domResult.value > 1) {
             console.log(`Project count: ${domResult.value}`);
+          }
+
+          return domResult.value > 1;
+        });
+      }
+
+      function datasetsHaveBeenRetrieved() {
+        return client.execute(function() {
+          var selectElement = document.querySelector("bigquery-datasets-selector select");
+          if (!selectElement) {return {value: 0};}
+          return selectElement.children.length;
+        })
+        .then((domResult)=>{
+          if (domResult.value > 1) {
+            console.log(`Dataset count: ${domResult.value}`);
           }
 
           return domResult.value > 1;
